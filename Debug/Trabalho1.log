@@ -1,8 +1,17 @@
-﻿Build started 24-09-2015 13:01:10.
+﻿Build started 01-10-2015 11:57:23.
      1>Project "D:\Universidade\6 ano\1 Sem\SI\Trabalho1\Trabalho1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"D:\Universidade\6 ano\1 Sem\SI\Trabalho1" /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARINGS /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Trabalho1.cpp
          Trabalho1.cpp
+     1>d:\universidade\6 ano\1 sem\si\trabalho1\trabalho1.cpp(46): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\conio.h(452): note: see declaration of 'getch'
+     1>d:\universidade\6 ano\1 sem\si\trabalho1\trabalho1.cpp(53): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\universidade\6 ano\1 sem\si\trabalho1\trabalho1.cpp(122): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\conio.h(452): note: see declaration of 'getch'
+     1>d:\universidade\6 ano\1 sem\si\trabalho1\trabalho1.cpp(127): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\conio.h(452): note: see declaration of 'getch'
+     1>d:\universidade\6 ano\1 sem\si\trabalho1\trabalho1.cpp(130): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\conio.h(452): note: see declaration of 'getch'
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Universidade\6 ano\1 Sem\SI\Trabalho1\Debug\Trabalho1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "D:\Universidade\6 ano\1 Sem\SI\Trabalho1\NIDAQmx.lib" wsock32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Universidade\6 ano\1 Sem\SI\Trabalho1\Debug\Trabalho1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Universidade\6 ano\1 Sem\SI\Trabalho1\Debug\Trabalho1.lib" /MACHINE:X86 Debug\interface.obj
          Debug\stdafx.obj
@@ -12,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.95
+Time Elapsed 00:00:00.86

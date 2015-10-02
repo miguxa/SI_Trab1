@@ -3,6 +3,69 @@
 
 #include "stdafx.h"
 #include "interface.h"
+#include <conio.h>
+
+bool getBitValue(uInt8 value, uInt8 n_bit);
+int setBitValue(uInt8 base_val, int bit_nr, int bit_val);
+int calib();
+void test_func();
+void stop_LStation();
+void stop_RStation();
+
+
+/********/
+
+int main()
+{
+	create_DI_channel(0);
+	create_DI_channel(1);
+	create_DI_channel(2);
+	create_DI_channel(3);
+	create_DO_channel(4);
+	create_DO_channel(5);
+
+	//test_func();
+	
+	calib();
+	
+	
+	
+	/*
+	int p_val1 = 0, p_val2 = 0;
+	int c = 0;
+
+	p_val1 = in_port(1);
+	out_port(4, 8);
+	while (c != 'x') {
+		c = getch();
+	}
+	out_port(4, 0);
+	*/
+
+	printf("\nPress a key to exit\n");
+	getch();
+	close_channels();
+	return 0;
+}
+
+
+bool getBitValue(uInt8 value, uInt8 n_bit) {
+	return (value & (1 << n_bit));
+}
+
+int setBitValue(uInt8 base_val, int bit_nr, int bit_val) { // coloca no bit_nr o valor 1 ou 0
+	int ret;
+	int mask_on = 1 << bit_nr;
+	int mask_off = 0xff - (1 << bit_nr);
+	if (bit_val) {
+		ret = base_val | mask_on;
+	}
+	else {
+		//mask = ~mask;
+		ret = base_val & mask_off;
+	}
+	return ret;
+}
 
 
 /*  Função que calibra o armazém.
@@ -11,84 +74,82 @@ retorna 0 para controlo.
 */
 int calib() {
 	/*****Calibração*****/
+	int p_val1 = 0, p_val2 = 0;
 
-	/*Inicializa as variáveis P1, P2 e P3 com o valor dos portos 1, 2 e 4 respectivamente*/
-	uInt8 P1 = ReadDigitalU8(1);
-	uInt8 P2 = ReadDigitalU8(2);
-	uInt8 P4 = ReadDigitalU8(4);
-	uInt8 Aux = 0;
-
-	/* Exemplo explicativo
-	Aux = setBitValue(PC, A, B);
-	WriteDigitalU8(C, Aux);
-	lê o valor existente em PC e escreve no bit A o valor B.
-	depois de alterado o valor de PC, escreve de novo no porto C.
-	*/
-	Aux = setBitValue(P4, 3, 1);
-	WriteDigitalU8(4, Aux);
-	/*condição do sensor "conveyor at center"*/
-	while (getBitValue(P1, 3))
-		P1 = ReadDigitalU8(1);
-	Aux = setBitValue(P4, 3, 0);
-	WriteDigitalU8(4, Aux);
-
-
-	Aux = setBitValue(P4, 6, 1);
-	WriteDigitalU8(4, Aux);
-	/*condição do sensor "z+N"*/
-	while (getBitValue(P2, 6) && getBitValue(P2, 4) && getBitValue(P2, 2) && getBitValue(P2, 0) && getBitValue(P1, 6)) {
-		P1 = ReadDigitalU8(1);
-		P2 = ReadDigitalU8(2);
+	p_val1 = in_port(1);
+	out_port(4, 8);
+	while (p_val1 == 255) {
+		p_val1 = in_port(1);
 	}
-	Aux = setBitValue(P4, 6, 0);
-	WriteDigitalU8(4, Aux);
+	out_port(4, 0);
 
 
-	Aux = setBitValue(P4, 0, 1);
-	WriteDigitalU8(4, Aux);
-	/*condição do sensor "x+N"*/
-	while (in_port(0) == 255 && getBitValue(P1, 0) && getBitValue(P1, 1)) {
-		P1 = ReadDigitalU8(1);
+	p_val1 = in_port(0);
+	p_val2 = in_port(1);
+	out_port(4, 1);
+	while (p_val1 == 255 && getBitValue(p_val1, 0) && getBitValue(p_val1, 1)) {
+		p_val1 = in_port(0);
+		p_val2 = in_port(1);
 	}
-	Aux = setBitValue(P4, 0, 0);
-	WriteDigitalU8(4, Aux);
+	out_port(4, 0);
+
+
+	p_val1 = in_port(1);
+	p_val2 = in_port(2);
+	out_port(4, 64);
+
+	while (getBitValue(p_val2, 6) && getBitValue(p_val2, 4) && getBitValue(p_val2, 2) && getBitValue(p_val2, 0) && getBitValue(p_val1, 6)) {
+		p_val1 = in_port(1);
+		p_val2 = in_port(2);
+	}
+	
+	out_port(4, 0);
 
 	return 0;
 }
 
-/********/
+/*Funcao de teste*/
+void test_func() {
 
-/********/
-
-int main()
-{
-	printf("Hello");
-
-	create_DI_channel(0);
-	create_DI_channel(1);
-	create_DI_channel(2);
-	create_DI_channel(3);
-	create_DO_channel(4);
-	create_DO_channel(5);
-	
-	calib();
-
-	/*
-	uInt8 P = ReadDigitalU8(4); //lê o valor do porto 4
-
-	//imprime o bit X da variável P
-	for (int X = 7; X >= 0; X--) {
-		printf("%d\n", getBitValue(P, X));
+	int c = 0, p_val = 0;
+	/////////////////////////////////////////////////////
+	// test in_port
+	printf("Test in_port\n");
+	while (c != 'x') {
+		p_val = in_port(0);
+		printf("Port Value - %2x\n", p_val);
+		printf("qq tecla. x p/ terminar\n");
+		c = getch();
 	}
+	/////////////////////////////////////////////////////
+	// test in_port
+	printf("Test out_port\n");
+	c = getch();
+	out_port(5, 1);
+	printf("Left going out\n");
+	c = getch();
+	out_port(5, 0);
+	printf("Done! Bye 4 now \n");
+}
 
-	getchar();
+void stop_LStation() {
+	uInt8 P4 = ReadDigitalU8(4);
+	uInt8 P5 = ReadDigitalU8(5);
+	int Aux;
 
-	//lê o que está na variável P e mete no bit 3, o valor 1
-	uInt8 A = setBitValue(P, 3, 1);
-	//escreve o valor de A no porto 0
-	WriteDigitalU8(0, A);
-	*/
-	getchar();
+	Aux = setBitValue(P4, 7, 0);
+	WriteDigitalU8(4, Aux);
+	Aux = setBitValue(P5, 0, 0);
+	WriteDigitalU8(5, Aux);
+}
 
-	return 0;
+void stop_RStation() {
+	uInt8 P5 = ReadDigitalU8(5);
+	int Aux;
+
+	Aux = setBitValue(P5, 1, 0);
+	WriteDigitalU8(5, Aux);
+	P5 = ReadDigitalU8(5);
+	Aux = setBitValue(P5, 2, 0);
+	WriteDigitalU8(5, Aux);
 }
